@@ -21,8 +21,8 @@ sub set_bootorder{
 			my $ip = $$config{'blades'}{$blade}{'ip'};
 			my $username = $$config{'blades'}{$blade}{'user'};
 			my $password = $$config{'blades'}{$blade}{'password'};
-			my $timeout = $$config{'blades'}{'sshtimeout'} || 5;
-			my $port = $$config{'blades'}{'sshport'} || 22;
+			my $timeout = $$config{'sshtimeout'} || 5;
+			my $port = $$config{'sshport'} || 22;
 			
 			say "Running $cmd on $ip";
 			my $ssh2 = $self->connect_ssh($ip, $username, $password, $port, $timeout);
