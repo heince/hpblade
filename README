@@ -1,0 +1,15 @@
+Command line tool for HP BLADE enclosure through ssh
+Currently only support set boot order
+
+perl deps:
+- Config::General
+- Path::Class
+- Net::SSH2
+- Mouse
+
+example:
+#set all blade first boot to pxe
+bladecmd.pl set -d pxe boot
+
+#set slot 1, 2 & 3 boot once to cd
+bladecmd.pl set -s 1,2,3 --once -d cd boot
