@@ -57,13 +57,16 @@ sub exec_ssh_cmd{
 	my ($ssh2, $cmd) = @_;
 	
 	my $chan = $ssh2->channel();
+	$chan->blocking(1);
+    $chan->ext_data('merge');
     $chan->exec($cmd);	
-    my @result = <$chan>;
+    my $output;
+    my $len = $chan->read($output,20480);
       	
     $chan->close();
     $ssh2->disconnect();
 
-    return \@result;
+    return $output;
 }
 
 1;

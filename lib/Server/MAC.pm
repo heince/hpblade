@@ -1,4 +1,4 @@
-package Boot;
+package MAC;
 use v5.10;
 use Mouse;
 use strict;
@@ -7,13 +7,10 @@ use General;
 
 extends 'General';
 
-has 'type' => (is => 'rw', isa => "Str", default => 'first'); 
-has 'device' => (is => 'rw', isa => "Str", default => 'cd');
-
-sub set_bootorder{
+sub showmac{
 	my $self = shift;
 	
-	my $cmd =  $self->set_bootcmd();
+	my $cmd =  $self->set_showmac_cmd();
 	
 	my $config = $self->getConfigHash();
 	for (keys $config){
@@ -28,7 +25,17 @@ sub set_bootorder{
 			my $ssh2 = $self->connect_ssh($ip, $username, $password, $port, $timeout);
 			
 			my $result = $self->exec_ssh_cmd($ssh2, $cmd);
-			print $result;
+			my @output = split '\n' => $result;
+            for (@output){
+            	if(/\bServer Name\b/){
+                	print "\n";
+                    say;
+                }
+                if(/([0-9A-F]{2}[:-]){5}([0-9A-F]{2})/i){
+                	say;
+                }
+            }
+            print "\n";
 		}
 	}
 }
@@ -43,25 +50,11 @@ sub get_slot{
 	}
 }
 
-sub check_valid_device{
-	my $self = shift;
-	
-	my $device = shift;
-	
-	my @valid = qw \HDD PXE CD FLOPPY USB\;
-	my @check = grep {/\b$device\b/i} @valid;
-	
-	unless(@check){
-		say "invalid device, supported device is:"; 
-		map{say} @valid;
-		exit 1;
-	}
-}
 
-sub set_bootcmd{
+sub set_showmac_cmd{
 	my $self = shift;
 	
-	my $cmd = "set server boot " . $self->type . " " . $self->device . " " . $self->get_slot(); 
+	my $cmd = "show server info " . $self->get_slot(); 
 	return $cmd;
 }
 

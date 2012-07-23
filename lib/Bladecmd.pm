@@ -20,6 +20,7 @@ bladecmd.pl set -h
 console             run interactively
 cmd-list            list available commands
 set                 set boot
+show                show mac
     
 EOF
 }
@@ -50,16 +51,13 @@ sub command_map {
     alias       => 'CLI::Framework::Command::Alias',
     'cmd-list'  => 'CLI::Framework::Command::List',
     set			=> 'Bladecmd::Command::Set',
+    show		=> 'Bladecmd::Command::Show',
 }
 
 sub command_alias {
     # In this list, the keys are aliases to the command names given as values
     # (the values should be found as "keys" in command_map()).
     sh  => 'console',
-    ls  => 'list',
-    cr  => 'create',
-    del => 'delete',
-    rm  => 'remove'
 }
 
 sub init {
