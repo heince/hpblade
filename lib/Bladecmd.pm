@@ -10,7 +10,7 @@ sub usage_text {
     # The usage_text() hook in the Application Class is meant to return a
     # usage string describing the whole application.
     my $usage = <<EOF;
-cloudcmd <cmd> [--cmd-opt] [cmd-arg]
+bladecmd.pl <cmd> [--cmd-opt] [cmd-arg]
 
 Display help on each command:
 bladecmd.pl <cmd> -h
