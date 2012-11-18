@@ -13,10 +13,11 @@ bladecmd.pl show [--cmd-opt] [cmd-arg]
 
 available cmd-opt:
 -s              => 'set slot number'
--g              => 'set blade enclosure group'         
+-g              => 'set blade enclosure group'
+-e              => 'define enclosure name'         
             
 available cmd-arg:
-boot
+show
 
 example:
 #show blade's NIC mac address
@@ -54,7 +55,8 @@ sub option_spec {
     # specification for a particular command.
     [ 'help|h' => 'help' ],
     [ 's=s'    => 'set slot' ],
-    [ 'g=s'	   => 'set enclosure group']
+    [ 'g=s'	   => 'set enclosure group'],
+    [ 'e=s' 	=> 'set enclosure name' ]
 }
 
 sub check_general_opts{
@@ -85,7 +87,12 @@ sub run{
             $obj = MAC->new();
             check_general_opts(\$opts, \$obj);
             check_mac_opts(\$opts, \$obj);
-            $obj->showmac();
+            if($opts->{'e'}){
+            	$obj->showmac_byenc($opts->{'e'});
+            }
+            else{
+            	$obj->showmac();
+            }   
         }
    }
    
